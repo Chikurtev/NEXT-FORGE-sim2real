@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Main ROS2 container with MuJoCo and hardware bridge
+  ros2_taskboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ros2_taskboard
+    image: ros2_taskboard:latest
+    environment:
+      - ROS_DOMAIN_ID=0
+      - DISPLAY=${DISPLAY}
+    volumes:
+      # Mount X11 for visualization
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ~/.Xauthority:/root/.Xauthority:ro
+      # Mount workspace for development
+      - ./src:/root/ros2_ws/src:rw
+      - ./install:/root/ros2_ws/install:ro
+      - ./build:/root/ros2_ws/build:rw
+      # Mount recordings and configs
+      - ./recordings:/root/ros2_ws/recordings:rw
+      - ./board_configs:/root/ros2_ws/board_configs:rw
+      # Mount launch files
+      - ./launch:/root/ros2_ws/launch:ro
+    network_mode: host
+    privileged: true
+    stdin_open: true
+    tty: true
+    command: bash
+
+  # Micro-ROS Agent for hardware communication (optional)
+  micro_ros_agent:
+    image: microros/micro-ros-agent:humble
+    container_name: micro_ros_agent
+    network_mode: host
+    command: udp4 --port 8888
+    depends_on:
+      - ros2_taskboard
+    environment:
+      - ROS_DOMAIN_ID=0
+
+  # ROS Bridge WebSocket server for web visualization
+  rosbridge:
+    image: ros:humble
+    container_name: rosbridge_ws
+    environment:
+      - ROS_DOMAIN_ID=0
+    network_mode: host
+    volumes:
+      - ./launch/rosbridge_certificate:/root/rosbridge_cert:ro
+    command: >
+      bash -c "
+      . /opt/ros/humble/setup.bash &&
+      apt-get update &&
+      apt-get install -y ros-humble-rosbridge-suite &&
+      roslaunch rosbridge_server rosbridge_websocket.launch 
+        certfile:=/root/rosbridge_cert/certificate.pem 
+        keyfile:=/root/rosbridge_cert/private.key
+      "
+    depends_on:
+      - ros2_taskboard
+
+networks:
+  default:
+    driver: bridge

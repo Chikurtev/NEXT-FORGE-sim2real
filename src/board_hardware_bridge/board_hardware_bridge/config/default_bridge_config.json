@@ -1,0 +1,43 @@
+{
+  "bridge": {
+    "mode": "simulation",
+    "log_level": "INFO"
+  },
+  "simulation": {
+    "model_path": "task_board.xml",
+    "timestep": 0.002,
+    "update_rate": 500
+  },
+  "hardware": {
+    "address": "localhost",
+    "port": 8888,
+    "timeout": 5.0
+  },
+  "sensors": {
+    "probe": {
+      "detection_threshold": 0.01,
+      "frame": "probe_link"
+    },
+    "cable": {
+      "connector_position": [0.038, 0.019, 0.0],
+      "detection_threshold": 0.01,
+      "frame": "cable_link"
+    }
+  },
+  "topics": {
+    "simulation": {
+      "probe_state": "mujoco/probe_state",
+      "cable_state": "mujoco/cable_plug_state",
+      "body_states": "mujoco/body_states"
+    },
+    "hardware": {
+      "taskboard_status": "robothon_taskboard_status",
+      "task_status": "robothon_task_status"
+    },
+    "bridge": {
+      "hardware_state": "hardware/state",
+      "probe_detected": "hardware/probe_inserted",
+      "cable_plugged": "hardware/cable_plugged"
+    }
+  }
+}

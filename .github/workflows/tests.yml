@@ -1,0 +1,48 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: ros:humble-ros-core-jammy
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-pip git
+          pip3 install mujoco>=2.2.0 pytest flake8 pydocstyle
+
+      - name: Install ROS build tools
+        run: |
+          apt-get install -y ros-humble-desktop-full colcon-common-extensions
+
+      - name: Build packages
+        run: |
+          . /opt/ros/humble/setup.sh
+          colcon build --packages-skip board_webots_sim
+
+      - name: Run tests
+        run: |
+          . /opt/ros/humble/setup.sh
+          . ./install/setup.sh
+          colcon test --packages-select board_hardware_bridge board_mujoco_sim
+
+      - name: Check Python style
+        run: |
+          flake8 src/board_mujoco_sim/board_mujoco_sim \
+                  src/board_hardware_bridge/board_hardware_bridge \
+                  --max-line-length=100 --extend-ignore=E501,W291
+
+      - name: Test model validation
+        run: |
+          . /opt/ros/humble/setup.sh
+          . ./install/setup.sh
+          python3 src/board_mujoco_sim/board_mujoco_sim/test_model.py
