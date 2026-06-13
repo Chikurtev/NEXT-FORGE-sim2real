@@ -34,7 +34,7 @@ jobs:
       - name: Test Docker image
         run: |
           docker run --rm ros2_taskboard:${{ github.sha }} \
-            bash -c "ros2 --version && python3 -c 'import mujoco; print(f\"MuJoCo version: {mujoco.__version__}\"'"
+            bash -c "ros2 --help >/dev/null && python3 -c 'import mujoco; print(\"MuJoCo version:\", mujoco.__version__)'"
 
       - name: Log in to Docker Hub
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
