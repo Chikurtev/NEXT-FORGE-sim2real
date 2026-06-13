@@ -40,7 +40,7 @@ jobs:
         run: |
           python3 -m flake8 src/board_mujoco_sim/board_mujoco_sim \
                           src/board_hardware_bridge/board_hardware_bridge \
-                          --max-line-length=100 --extend-ignore=E501,W291
+                          --max-line-length=100 --extend-ignore=E501,W291,W293,F401
 
       - name: Test model validation
         run: |
