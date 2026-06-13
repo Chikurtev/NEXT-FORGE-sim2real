@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     ros-humble-launch \
     ros-humble-urdf-launch \
     ros-humble-xacro \
-    python3-colcon-common-extensions \
+    # python3-colcon-common-extensions \
     ros-dev-tools \
     # Webots and dependencies
     ros-humble-webots-ros2 \
