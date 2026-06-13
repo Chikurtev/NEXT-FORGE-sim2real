@@ -21,11 +21,12 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     python3-dev \
     python3-venv \
     # ROS 2 tools
-    ros-humble-desktop-full \
+    ros-humble-desktop \
     ros-humble-launch \
     ros-humble-urdf-launch \
     ros-humble-xacro \
-    colcon-common-extensions \
+    python3-colcon-common-extensions \
+    ros-dev-tools \
     # Webots and dependencies
     ros-humble-webots-ros2 \
     # rosbridge for WebSocket
@@ -40,6 +41,9 @@ RUN apt-get update && apt-get install -y software-properties-common && \
 
 # Install MuJoCo
 RUN pip3 install --no-cache-dir mujoco>=2.2.0
+
+# Fallback: ensure colcon extensions available via pip if apt package not found
+RUN pip3 install --no-cache-dir -U colcon-common-extensions || true
 
 # Install Python dependencies for the project
 RUN pip3 install --no-cache-dir \
