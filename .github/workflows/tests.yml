@@ -22,7 +22,7 @@ jobs:
 
       - name: Install ROS build tools
         run: |
-          apt-get install -y ros-humble-desktop-full colcon-common-extensions
+          apt-get install -y ros-humble-desktop-full python3-colcon-common-extensions
 
       - name: Build packages
         run: |

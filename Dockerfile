@@ -4,8 +4,8 @@ FROM ros:humble-ros-core-jammy
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
     ROS_DISTRO=humble \
-    LANG=C.UTF-8 \
-    LC_ALL=C.UTF-8
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 
 # Update and install system dependencies
 RUN apt-get update && apt-get install -y software-properties-common && \
@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     ros-humble-launch \
     ros-humble-urdf-launch \
     ros-humble-xacro \
-    # python3-colcon-common-extensions \
+    python3-colcon-common-extensions \
     ros-dev-tools \
     # Webots and dependencies
     ros-humble-webots-ros2 \
