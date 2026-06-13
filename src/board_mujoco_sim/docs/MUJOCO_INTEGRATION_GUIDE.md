@@ -247,7 +247,7 @@ The model includes sensors for:
 import mujoco
 
 # Load model and data
-model = mujoco.MjModel.from_xml_file('task_board.xml')
+model = mujoco.MjModel.from_xml_path('task_board.xml')
 data = mujoco.MjData(model)
 
 # Step simulation
@@ -303,7 +303,7 @@ for i in range(model.nsensor):
 echo "Model path: $(ros2 pkg prefix board_description)/share/board_description/urdf/task_board.xml"
 
 # Validate XML
-python3 -c "import mujoco; mujoco.MjModel.from_xml_file('task_board.xml')"
+python3 -c "import mujoco; mujoco.MjModel.from_xml_path('task_board.xml')"
 ```
 
 ### Simulation Diverges (NaN values)

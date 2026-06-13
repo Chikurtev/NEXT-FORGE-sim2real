@@ -53,7 +53,7 @@ class TaskBoardMuJoCoVisualizer(Node):
         # Load MuJoCo model
         self.get_logger().info(f"Loading MuJoCo model for visualization: {model_path}")
         try:
-            self.model = mujoco.MjModel.from_xml_file(model_path)
+            self.model = mujoco.MjModel.from_xml_path(model_path)
             self.data = mujoco.MjData(self.model)
             self.get_logger().info("MuJoCo model loaded successfully for visualization")
         except Exception as e:

@@ -259,7 +259,7 @@ Used directly from URDF conversion
 import mujoco
 
 # Load and validate model
-model = mujoco.MjModel.from_xml_file('task_board.xml')
+model = mujoco.MjModel.from_xml_path('task_board.xml')
 data = mujoco.MjData(model)
 
 # Check model statistics

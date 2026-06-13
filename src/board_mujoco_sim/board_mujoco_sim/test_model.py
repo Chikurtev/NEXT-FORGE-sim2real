@@ -41,7 +41,7 @@ def validate_model(model_path):
     # Load model
     print(f"Loading model from: {model_path}")
     try:
-        model = mujoco.MjModel.from_xml_file(model_path)
+        model = mujoco.MjModel.from_xml_path(model_path)
         data = mujoco.MjData(model)
         print("✓ Model loaded successfully")
     except Exception as e:
