@@ -8,7 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=C.UTF-8
 
 # Update and install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y software-properties-common && \
+    add-apt-repository universe && \
+    apt-get update && apt-get install -y \
     # Build tools
     build-essential \
     git \
