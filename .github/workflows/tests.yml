@@ -18,7 +18,8 @@ jobs:
         run: |
           apt-get update
           apt-get install -y python3-pip git
-          pip3 install mujoco>=2.2.0 pytest flake8 pydocstyle
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --no-cache-dir mujoco>=2.2.0 pytest flake8 pydocstyle
 
       - name: Install ROS build tools
         run: |
